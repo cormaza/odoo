@@ -399,6 +399,7 @@ var FormRenderer = BasicRenderer.extend({
      */
     _renderButtonBox: function (node) {
         var self = this;
+        var no_fold = node.attrs.hasOwnProperty("no_fold") && node.attrs.no_fold === "true";
         var $result = $('<' + node.tag + '>', {class: 'o_not_full'});
 
         // The rendering of buttons may be async (see renderFieldWidget), so we
@@ -439,6 +440,10 @@ var FormRenderer = BasicRenderer.extend({
 
             // Get the folded buttons
             var folded_buttons = visible_buttons.slice(nb_buttons);
+            if (no_fold){
+                unfolded_buttons = visible_buttons.concat(invisible_buttons);
+                folded_buttons = [];
+            }
             if (folded_buttons.length === 1) {
                 unfolded_buttons = buttons;
                 folded_buttons = [];
