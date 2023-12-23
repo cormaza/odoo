@@ -15,6 +15,7 @@
         'data/payment_provider_data.xml',
     ],
     'application': False,
+    'installable': False,
     'pre_init_hook': 'pre_init_hook',
     'post_init_hook': 'post_init_hook',
     'uninstall_hook': 'uninstall_hook',
