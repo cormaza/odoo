@@ -16,10 +16,10 @@ def _pre_init_mrp(cr):
           stock_move.unit_factor is terribly slow with the ORM and leads to "Out of
           Memory" crashes
     """
-    cr.execute("""ALTER TABLE "stock_move" ADD COLUMN "is_done" bool;""")
+    cr.execute("""ALTER TABLE "stock_move" ADD COLUMN IF NOT EXISTS "is_done" bool;""")
     cr.execute("""UPDATE stock_move
                      SET is_done=COALESCE(state in ('done', 'cancel'), FALSE);""")
-    cr.execute("""ALTER TABLE "stock_move" ADD COLUMN "unit_factor" double precision;""")
+    cr.execute("""ALTER TABLE "stock_move" ADD COLUMN IF NOT EXISTS "unit_factor" double precision;""")
     cr.execute("""UPDATE stock_move
                      SET unit_factor=1;""")
 
