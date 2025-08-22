@@ -106,7 +106,7 @@ class Repair(models.Model):
     location_dest_id = fields.Many2one(
         'stock.location', 'Added Parts Destination Location',
         related="picking_type_id.default_location_dest_id", depends=["picking_type_id"],
-        store=True, readonly=True, required=True, precompute=True,
+        store=True, readonly=True, required=False, precompute=True,
         index=True, check_company=True,
         help="This is the location where the repaired product is located.")
     parts_location_id = fields.Many2one(
