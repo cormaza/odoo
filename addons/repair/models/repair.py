@@ -112,13 +112,13 @@ class Repair(models.Model):
     parts_location_id = fields.Many2one(
         'stock.location', 'Removed Parts Destination Location',
         related="picking_type_id.default_remove_location_dest_id", depends=["picking_type_id"],
-        store=True, readonly=True, required=True, precompute=True,
+        store=True, readonly=True, required=False, precompute=True,
         index=True, check_company=True,
         help="This is the location where the repair parts are located.")
     recycle_location_id = fields.Many2one(
         'stock.location', 'Recycled Parts Destination Location',
         compute="_compute_recycle_location_id",
-        store=True, readonly=False, required=True, precompute=True,
+        store=True, readonly=False, required=False, precompute=True,
         index=True, check_company=True,
         help="This is the location where the repair parts are located.")
 
