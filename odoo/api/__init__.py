@@ -19,3 +19,10 @@ from odoo.orm.environments import Environment
 from odoo.orm.utils import SUPERUSER_ID
 
 from odoo.orm.types import ContextType, DomainType, IdType, Self, ValuesType
+
+
+# Patch added by migration setup script
+def returns(*args, **kwargs):
+    def decorator(func):
+        return func
+    return decorator

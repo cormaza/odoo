@@ -549,10 +549,14 @@ def get_modules_with_version() -> dict[str, str]:
 
 def adapt_version(version: str) -> str:
     """Reformat the version of the module into a canonical format."""
+    serie = release.major_version
+    parts = version.split('.')
+    if len(parts) >= 2 and parts[0].isdigit() and parts[1].isdigit() and len(parts) > 3:
+        if parts[0] != serie.split('.')[0]:
+            version = '.'.join(parts[2:])
     version_str_parts = version.split('.')
     if not (2 <= len(version_str_parts) <= 5):
         raise ValueError(f"Invalid version {version!r}, must have between 2 and 5 parts")
-    serie = release.major_version
     if version.startswith(serie) and not version_str_parts[0].isdigit():
         # keep only digits for parsing
         version_str_parts[0] = ''.join(c for c in version_str_parts[0] if c.isdigit())
@@ -563,6 +567,8 @@ def adapt_version(version: str) -> str:
     if len(version_parts) <= 3 and not version.startswith(serie):
         # prefix the version with serie
         return f"{serie}.{version}"
+    if not version.startswith(serie):
+        return f"{serie}.{'.'.join(version_str_parts[:3])}"
     return version
 
 
