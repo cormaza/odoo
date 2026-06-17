@@ -24,3 +24,18 @@ def migrate(cr, version):
     """)
     print("Pre-migration: hr_work_entry_contract_enterprise XMLID modules renamed successfully.")
 
+    # Set country_id for Ecuadorian work entry types to avoid unique constraint conflict with other countries
+    print("Pre-migration: Associating country Ecuador to l10n_ec_hr work entry types...")
+    cr.execute("""
+        UPDATE hr_work_entry_type
+        SET country_id = (SELECT id FROM res_country WHERE code = 'EC' LIMIT 1)
+        WHERE id IN (
+            SELECT res_id 
+            FROM ir_model_data 
+            WHERE model = 'hr.work.entry.type' 
+              AND module = 'l10n_ec_hr'
+        );
+    """)
+    print("Pre-migration: Ecuadorian work entry types country associated successfully.")
+
+
