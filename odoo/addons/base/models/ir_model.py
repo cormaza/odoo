@@ -951,7 +951,11 @@ class IrModelFields(models.Model):
             if field:
                 self.env._field_dirty.pop(field)
         # remove fields from registry, and check that views are not broken
-        fields = [pop_field(self.env.registry[record.model], record.name) for record in records]
+        fields = []
+        for record in records:
+            reg_model = self.env.registry.get(record.model)
+            if reg_model:
+                fields.append(pop_field(reg_model, record.name))
         domain = Domain.OR([('arch_db', 'like', record.name)] for record in records)
         views = self.env['ir.ui.view'].search(domain)
         try:
